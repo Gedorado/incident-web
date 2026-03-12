@@ -41,10 +41,9 @@ export default function IncidentDetail() {
     setUpdating(true);
     setError('');
     try {
-      const updated = await updateIncidentStatus(id, newStatus);
-      setIncident((prev) =>
-        prev ? { ...prev, Status: updated.Status, UpdatedAt: updated.UpdatedAt } : prev
-      );
+      await updateIncidentStatus(id, newStatus);
+      const refreshed = await getIncident(id);
+      setIncident(refreshed);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al actualizar estado');
     } finally {
